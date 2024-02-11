@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POST_DB_URL")
+}
+
+model User {
+  id                  Int              @id @default(autoincrement())
+  first_name          String
+  last_name           String
+  email               String           @unique
+  firebase_uid        String?          @unique
+  photoURL            String?
+  phone_number        String?
+  country             String?
+  language_preference String?
+  profile_picture     String?
+  created_at          DateTime         @default(now())
+  updated_at          DateTime         @updatedAt
+  appointments        Appointment[]
+  psychology_tests    PsychologyTest[]
+  reports             Report[]
+  feedbacks           Feedback[]
+}
+
+model Therapist {
+  id                  Int           @id @default(autoincrement())
+  first_name          String
+  last_name           String
+  email               String        @unique
+  firebase_uid        String        @unique
+  photoURL            String?
+  phone_number        String?
+  national_id_card    String?
+  practice_license_id String?
+  professional_title  String?
+  approved            Boolean       @default(false)
+  disabled            Boolean       @default(false)
+  created_at          DateTime      @default(now())
+  updated_at          DateTime      @updatedAt
+  appointments        Appointment[]
+  feedbacks           Feedback[]
+  Report              Report[]
+}
+
+model Appointment {
+  id               Int       @id @default(autoincrement())
+  user             User      @relation(fields: [user_id], references: [id])
+  user_id          Int
+  therapist        Therapist @relation(fields: [therapist_id], references: [id])
+  therapist_id     Int
+  appointment_date DateTime
+  appointment_type String
+  price            Float
+  duration         Int
+  payment_status   String
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+}
+
+model PsychologyTest {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    Int
+  test_name  String
+  result     String
+  created_at DateTime @default(now())
+}
+
+model Report {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [user_id], references: [id])
+  user_id      Int
+  therapist    Therapist @relation(fields: [therapist_id], references: [id])
+  therapist_id Int
+  report_type  String
+  content      String
+  created_at   DateTime  @default(now())
+}
+
+model Feedback {
+  id           Int        @id @default(autoincrement())
+  user         User?      @relation(fields: [user_id], references: [id])
+  user_id      Int?
+  therapist    Therapist? @relation(fields: [therapist_id], references: [id])
+  therapist_id Int?
+  rating       Int
+  comment      String?
+  created_at   DateTime   @default(now())
+}
