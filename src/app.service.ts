@@ -3,7 +3,7 @@ import { FirebaseAppRepository } from './firebase/firebase-app.repository';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly firebaseAppRepository: FirebaseAppRepository) {}
+  constructor() {}
 
   getHello(): string {
     return 'Hello World!';

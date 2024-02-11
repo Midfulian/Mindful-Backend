@@ -38,7 +38,7 @@ export class AuthService {
       console.log('decodedToken:', decodedToken);
 
       // Retrieve user data based on role
-      let user = null;
+      let user;
       if (userLoginEntity.role === 'therapist') {
         user = await this.prisma.therapist.findUnique({
           where: { firebase_uid: uid },
