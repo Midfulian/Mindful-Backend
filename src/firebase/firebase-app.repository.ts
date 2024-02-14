@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { app, auth } from 'firebase-admin';
 import { Auth as AuthInstance, getAuth } from 'firebase/auth';
+import { FirebaseApp } from 'firebase/app';
 
 @Injectable()
 export class FirebaseAppRepository {
@@ -11,9 +12,9 @@ export class FirebaseAppRepository {
 
   constructor(
     @Inject('FIREBASE_ADMIN') private readonly firebaseAdmin: app.App,
-    @Inject('FIREBASE_APP') private readonly firebaseApp: any,
+    @Inject('FIREBASE_APP') private readonly firebaseApp: FirebaseApp,
   ) {
-    this.db = firebaseAdmin ? firebaseAdmin.firestore() : app().firestore();
+    this.db = firebaseAdmin.firestore()
     this.collection = this.db.collection('users');
     this.authInstance = getAuth(this.firebaseApp);
     this.auth = firebaseAdmin.auth();
