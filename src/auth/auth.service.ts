@@ -10,6 +10,8 @@ import UserRecord = auth.UserRecord;
 @Injectable()
 export class AuthService {
   idToken: string;
+  
+
   constructor(
     private readonly firebaseAppRepository: FirebaseAppRepository,
     private readonly prisma: PrismaService,
@@ -51,6 +53,7 @@ export class AuthService {
       if (!user) {
         return { error: 'User not found' };
       }
+
       return user;
     } catch (error) {
       console.error('Error during login:', error);
@@ -84,9 +87,11 @@ export class AuthService {
           data: { ...user.data, firebase_uid: uid },
         });
       } else {
-        await this.prisma.user.create({
-          data: { ...user.data, firebase_uid: uid },
-        });
+        
+        await this.firebaseAppRepository.db
+          .collection('users')
+          .add({ ...user.data, firebase_uid: uid });
+
       }
       return { success: true, user: userRecord };
     } catch (error) {

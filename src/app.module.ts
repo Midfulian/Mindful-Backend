@@ -7,6 +7,7 @@ import { FirebaseAppModule } from './firebase/firebase-app.module';
 import { AuthModule } from './auth/auth.module';
 import { PrismaService } from './prisma.service';
 import { HumansModule } from './entites/humans/humans.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { HumansModule } from './entites/humans/humans.module';
     FirebaseAppModule,
     AuthModule,
     HumansModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService, JwtStartegy, PrismaService],

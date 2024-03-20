@@ -6,7 +6,7 @@ import { FirebaseApp } from 'firebase/app';
 @Injectable()
 export class FirebaseAppRepository {
   public readonly db: FirebaseFirestore.Firestore;
-  public readonly collection?: FirebaseFirestore.CollectionReference;
+  public collection?: FirebaseFirestore.CollectionReference;
   public readonly authInstance: AuthInstance;
   public readonly auth: auth.Auth;
 
@@ -14,7 +14,7 @@ export class FirebaseAppRepository {
     @Inject('FIREBASE_ADMIN') private readonly firebaseAdmin: app.App,
     @Inject('FIREBASE_APP') private readonly firebaseApp: FirebaseApp,
   ) {
-    this.db = firebaseAdmin.firestore()
+    this.db = firebaseAdmin.firestore();
     this.collection = this.db.collection('users');
     this.authInstance = getAuth(this.firebaseApp);
     this.auth = firebaseAdmin.auth();
